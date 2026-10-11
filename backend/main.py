@@ -4,6 +4,9 @@ Voice-first micro-business operating system powered by Sarvam AI
 """
 
 import os
+import sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

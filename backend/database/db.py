@@ -1,6 +1,5 @@
 """
 Database models and initialization for Udyog-Vaani.
-Uses aiosqlite for async SQLite operations.
 """
 
 import sqlite3
@@ -18,7 +17,7 @@ def get_db_connection():
     return conn
 
 
-async def init_db():
+async def init_db():  # kept async for lifespan compatibility
     """Initialize all database tables."""
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -115,4 +114,4 @@ async def init_db():
 
     conn.commit()
     conn.close()
-    print("✅ Database initialized successfully")
+    print("[OK] Database initialized successfully")
