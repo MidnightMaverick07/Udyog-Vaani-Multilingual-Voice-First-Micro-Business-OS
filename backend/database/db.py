@@ -6,8 +6,16 @@ import sqlite3
 import json
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
-DATABASE_PATH = os.getenv("DATABASE_URL", "sqlite:///./udyog_vaani.db").replace("sqlite:///", "")
+load_dotenv()
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_raw_db = os.getenv("DATABASE_URL", "sqlite:///./udyog_vaani.db").replace("sqlite:///", "")
+if not os.path.isabs(_raw_db):
+    DATABASE_PATH = os.path.normpath(os.path.join(BASE_DIR, _raw_db))
+else:
+    DATABASE_PATH = _raw_db
 
 
 def get_db_connection():

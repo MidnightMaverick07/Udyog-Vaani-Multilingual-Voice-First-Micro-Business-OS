@@ -15,10 +15,13 @@ from database.db import get_db_connection
 from services.underwriting import compute_sha256, anchor_record
 from models.schemas import ReceiptUploadResponse
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_raw_upload = os.getenv("UPLOAD_DIR", "./uploads")
+if not os.path.isabs(_raw_upload):
+    UPLOAD_DIR = os.path.normpath(os.path.join(BASE_DIR, _raw_upload))
+else:
+    UPLOAD_DIR = _raw_upload
 router = APIRouter()
-
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
-
 
 def extract_receipt_with_gemini_vision(image_bytes: bytes, image_path: str) -> dict:
     """

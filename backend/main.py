@@ -7,15 +7,17 @@ import os
 import sys
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+from dotenv import load_dotenv
+
+# Load environment variables before importing any application modules
+load_dotenv()
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 
 from database.db import init_db
 from routers import ledger, receipts, underwriting, schemes, voice
-
-load_dotenv()
 
 
 @asynccontextmanager

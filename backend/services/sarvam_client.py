@@ -4,13 +4,48 @@ import os
 import httpx
 import base64
 from typing import Optional
+from dotenv import load_dotenv
 
-SARVAM_API_KEY = os.getenv("SARVAM_API_KEY", "")
+load_dotenv()
+
 SARVAM_BASE_URL = "https://api.sarvam.ai"
 
-HEADERS = {
-    "api-subscription-key": SARVAM_API_KEY,
-}
+
+def get_sarvam_api_key() -> str:
+    return os.getenv("SARVAM_API_KEY", "")
+
+
+def get_headers() -> dict:
+    return {
+        "api-subscription-key": get_sarvam_api_key(),
+    }
+
+
+# Backwards compatibility
+class _HeadersProxy(dict):
+    def __getitem__(self, item):
+        return get_headers().get(item, "")
+
+    def get(self, item, default=None):
+        return get_headers().get(item, default)
+
+    def keys(self):
+        return get_headers().keys()
+
+    def values(self):
+        return get_headers().values()
+
+    def items(self):
+        return get_headers().items()
+
+    def __iter__(self):
+        return iter(get_headers())
+
+    def __len__(self):
+        return len(get_headers())
+
+
+HEADERS = _HeadersProxy()
 
 SUPPORTED_LANGUAGES = {
     "hi-IN": "Hindi",
